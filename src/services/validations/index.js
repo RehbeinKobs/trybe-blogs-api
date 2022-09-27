@@ -14,7 +14,7 @@ const checkMissingFields = (fields) => {
 };
 
 const checkFieldMinLength = (field, name, length) => {
-  if (field.length < length) {
+  if (field && field.length < length) {
     throw createError(400, `"${name}" length must be at least ${length} characters long`);
   }
 };

@@ -1,6 +1,6 @@
 const express = require('express');
 const { User } = require('./controllers');
-const { handleError } = require('./middlewares');
+const { handleError, validateJWT } = require('./middlewares');
 
 const app = express();
 
@@ -8,6 +8,7 @@ app.use(express.json());
 
 app.post('/login', User.login);
 app.post('/user', User.create);
+app.get('/user', validateJWT, User.getUsers);
 
 app.use(handleError);
 

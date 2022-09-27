@@ -3,12 +3,22 @@ const { User } = require('../models');
 const { checkMissingFields, checkFieldMinLength, checkEmail } = require('./validations');
 const createError = require('../utils/createError');
 
-const findByEmail = async (email) => {
+const getAll = async () => {
+  const users = await User.findAll();
+  return users;
+};
+
+const getByEmail = async (email) => {
   const user = await User.findAll({
     where: {
       email,
     },
   });
+  return user;
+};
+
+const getById = async (id) => {
+  const user = await User.findByPk(id);
   return user;
 };
 
@@ -30,7 +40,7 @@ const login = async (body) => {
 
 const create = async (body) => {
   const { displayName, email, password, image } = body;
-  const user = await findByEmail(email);
+  const user = await getByEmail(email);
   checkFieldMinLength(displayName, 'displayName', 8);
   checkFieldMinLength(password, 'password', 6);
   checkEmail(email);
@@ -50,4 +60,6 @@ const create = async (body) => {
 module.exports = {
   login,
   create,
+  getById,
+  getAll,
 };

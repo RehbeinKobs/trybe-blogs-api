@@ -4,6 +4,15 @@ const { User } = require('../services');
 
 const secret = process.env.JWT_SECRET;
 
+const getUsers = async (_req, res, next) => {
+  try {
+    const users = await User.getAll();
+    return res.status(200).json(users);
+  } catch (e) {
+    next(e);
+  }
+};
+
 const login = async (req, res, next) => {
   try {
     const { body } = req;
@@ -37,4 +46,5 @@ const create = async (req, res, next) => {
 module.exports = {
   login,
   create,
+  getUsers,
 };
