@@ -3,6 +3,11 @@ const { User } = require('../models');
 const { checkMissingFields, checkFieldMinLength, checkEmail } = require('./validations');
 const createError = require('../utils/createError');
 
+const listById = async (id) => {
+  const user = await User.findByPk(id, { attributes: { exclude: ['password'] } });
+  return user;
+};
+
 const getAll = async () => {
   const users = await User.findAll({ attributes: { exclude: ['password'] } });
   return users;
@@ -18,8 +23,9 @@ const getByEmail = async (email) => {
 };
 
 const getById = async (id) => {
-  const user = await User.findByPk(id);
-  return user;
+  const user = await listById(id);
+  if (user) return user;
+  throw createError(404, 'User does not exist');
 };
 
 const login = async (body) => {
@@ -65,4 +71,5 @@ module.exports = {
   create,
   getById,
   getAll,
+  listById,
 };

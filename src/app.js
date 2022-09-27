@@ -8,7 +8,8 @@ app.use(express.json());
 
 app.post('/login', User.login);
 app.post('/user', User.create);
-app.get('/user', validateJWT, User.getUsers);
+app.get('/user', validateJWT, User.getAll);
+app.get('/user/:id', validateJWT, User.getById);
 
 app.use(handleError);
 

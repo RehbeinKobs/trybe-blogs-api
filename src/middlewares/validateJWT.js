@@ -11,7 +11,7 @@ const validateJWT = async (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, secret);
-    const user = await User.getById(decoded.data.userId);
+    const user = await User.listById(decoded.data.userId);
     if (!user) throw new Error();
     next();
   } catch (e) {
