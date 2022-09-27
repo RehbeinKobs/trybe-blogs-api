@@ -34,8 +34,12 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
       },
+      name: {
+        type: Sequelize.STRING,
+      },
     }, {
       freezeTableName: true,
+      timestamps: false,
     });
 
     await queryInterface.createTable('blog_posts', {
@@ -52,37 +56,57 @@ module.exports = {
         type: Sequelize.STRING,
       },
       user_id: {
+        primaryKey: true,
         type: Sequelize.INTEGER,
         references: {
           model: 'users',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
-      pulished: {
+      published: {
+        type: Sequelize.DATE,
+      },
+      updated: {
         type: Sequelize.DATE,
       }
     }, {
       freezeTableName: true,
+      timestamps: false,
     });
 
     await queryInterface.createTable('posts_categories', {
-      id: {
+      post_id: {
         type: Sequelize.INTEGER,
-        autoIncrement: true,
         allowNull: false,
         primaryKey: true,
+        references: {
+          model: 'blog_posts',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+
+      },
+      category_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        references: {
+          model: 'categories',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
     }, {
       freezeTableName: true,
+      timestamps: false,
     });
   },
 
-  down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+  down: async (queryInterface, _Sequelize) => {
+    await queryInterface.drop();
   }
 };
