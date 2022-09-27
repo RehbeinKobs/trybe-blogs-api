@@ -19,6 +19,22 @@ const login = async (req, res, next) => {
   }
 };
 
+const create = async (req, res, next) => {
+  try {
+    const { body } = req;
+    const userId = await User.create(body);
+    const jwtConfig = {
+      expiresIn: '7d',
+      algorithm: 'HS256',
+    };
+    const token = jwt.sign({ data: { userId } }, secret, jwtConfig);
+    return res.status(201).json({ token });
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   login,
+  create,
 };
