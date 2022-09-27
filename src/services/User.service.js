@@ -4,7 +4,7 @@ const { checkMissingFields, checkFieldMinLength, checkEmail } = require('./valid
 const createError = require('../utils/createError');
 
 const getAll = async () => {
-  const users = await User.findAll();
+  const users = await User.findAll({ attributes: { exclude: ['password'] } });
   return users;
 };
 
@@ -25,7 +25,7 @@ const getById = async (id) => {
 const login = async (body) => {
   const { email, password } = body;
   checkMissingFields([email, password]);
-  const userId = await User.findAll({
+  const user = await User.findOne({
     attributes: ['id'],
     where: {
       [Op.and]: {
@@ -34,7 +34,10 @@ const login = async (body) => {
       },
     },
   });
-  if (userId.length > 0) return userId;
+  if (user) {
+    const { id } = await user.toJSON();
+    return id;
+  }
   throw createError(400, 'Invalid fields');
 };
 
