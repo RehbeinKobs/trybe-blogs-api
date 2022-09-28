@@ -19,7 +19,7 @@ const User = (seq, dt) => seq.define('User', {
       type: dt.STRING,
     },
   }, {
-    modelName: 'User',
+    tableName: 'users',
     timestamps: false,
     underscored: true,
 });
