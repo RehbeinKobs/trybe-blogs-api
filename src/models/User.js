@@ -1,4 +1,5 @@
-const User = (seq, dt) => seq.define('User', {
+module.exports = (seq, dt) => {
+  const User = seq.define('User', {
     id: {
       type: dt.INTEGER,
       allowNull: false,
@@ -22,6 +23,11 @@ const User = (seq, dt) => seq.define('User', {
     tableName: 'users',
     timestamps: false,
     underscored: true,
-});
+  });
 
-module.exports = User;
+  User.associate = (models) => {
+    User.hasMany(models.BlogPost, { foreignKey: 'user_id' });
+  };
+
+  return User;
+}
