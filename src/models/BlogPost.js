@@ -35,7 +35,7 @@ module.exports = (seq, dt) => {
   });
 
   BlogPost.associate = (models) => {
-    BlogPost.belongsTo(models.User, { foreignKey: 'user_id' });
+    BlogPost.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' });
   };
 
   return BlogPost;

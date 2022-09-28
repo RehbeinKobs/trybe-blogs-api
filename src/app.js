@@ -1,5 +1,5 @@
 const express = require('express');
-const { User, Category } = require('./controllers');
+const { User, Category, Post } = require('./controllers');
 const { handleError, validateJWT } = require('./middlewares');
 
 const app = express();
@@ -12,6 +12,7 @@ app.get('/user', validateJWT, User.getAll);
 app.get('/user/:id', validateJWT, User.getById);
 app.post('/categories', validateJWT, Category.create);
 app.get('/categories', validateJWT, Category.getAll);
+app.get('/post', validateJWT, Post.getAll);
 
 app.use(handleError);
 

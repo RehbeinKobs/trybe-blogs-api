@@ -29,7 +29,7 @@ module.exports = (seq, dt) => {
   });
 
   PostCategory.associate = (models) => {
-    models.BlogPost.belongsToMany(models.Category, { through: models.PostCategory, unique: false, foreignKey: 'post_id' });
+    models.BlogPost.belongsToMany(models.Category, { through: models.PostCategory, unique: false, foreignKey: 'post_id', as: 'categories' });
     models.Category.belongsToMany(models.BlogPost, { through: models.PostCategory, unique: false, foreignKey: 'category_id' });
   }
 
